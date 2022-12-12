@@ -1,0 +1,63 @@
+.created_todo_container{
+    background-color: white;
+    padding: 1rem;
+    margin: 1.3rem 0.5rem 0 0.5rem;
+    border-radius: 5px;
+    height: 58vh;
+}
+
+
+.todos_box{
+    background-color: rgba(0, 0, 0, 0.61);
+    text-align: left;
+    padding: 4px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    position: relative;
+    
+
+
+    .text-muted{
+        text-align: right;
+        color: white  !important;
+    }
+    h5{
+        color: white;
+    }
+    
+}
+
+.operator_container{
+    display: none ;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    text-align: right;
+    height: 100%;
+    align-items: center;
+    text-align: center;
+    padding-top: 1.5rem;
+
+
+    
+
+    .edit_icon,.trash_icon{
+        font-size: 2rem;
+        color: rgb(14, 102, 218);
+        transition: 0.3sm;
+    }
+
+    .edit_icon:hover, .trash_icon:hover{
+        color: #fff;
+        transition: 0.3ms;
+    }
+}
+
+
+.todos_box:hover .operator_container{
+    background-color: rgba(0, 0, 0, 0.568);
+    display: block;
+    color: #fff;
+}
+
