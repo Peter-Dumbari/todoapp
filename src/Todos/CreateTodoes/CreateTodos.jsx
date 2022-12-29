@@ -8,7 +8,12 @@ export default function CreateTodos({
   handleSubmit,
   toggler,
   isEdit,
+  handleEditchange,
+  realId
 }) {
+
+
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="input_box d-inline-flex">
@@ -18,18 +23,13 @@ export default function CreateTodos({
           placeholder="Add Text..."
           value={text}
           onChange={(e) => setText(e.target.value)}
-          required
         />
         {isEdit ? (
-          <>
-            <button className="btn btn-primary">Submit Change</button>
-            <button onClick={toggler} className="btn btn-primary">
-              X
-            </button>
-          </>
+            <button className="btn btn-secondary" onClick={()=>handleEditchange(realId)}>Done</button>
+        
         ) : (
           <button className="btn btn-primary">
-            <AiOutlinePlus className="plus_icon" />
+            <AiOutlinePlus className="plus_icon" onClick={handleSubmit}/>
           </button>
         )}
       </div>

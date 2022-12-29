@@ -5,10 +5,9 @@ import "./Pagination/Paginate.scss";
 
 
 
-export default function Paginate({items, itemsPerPage, handleDelete, notify, isEdit, handleEdit}) {
+export default function Paginate({items, itemsPerPage, handleDelete, notify, isEdit, handleEdit, handleEditchange, currentItems, setCurrentItems}) {
 
   
-const [currentItems, setCurrentItems] = useState(null);
 const [pageCount, setPageCount] = useState(0);
   // Here we use item offsets; we could also use page offsets
   // following the API or data you're working with.
@@ -34,14 +33,14 @@ useEffect(() => {
 
   return (
     <>
-      <CreatedTodos currentItems={currentItems} handleDelete={handleDelete} notify={notify} isEdit={isEdit} handleEdit={handleEdit}/>
+      <CreatedTodos currentItems={currentItems} handleDelete={handleDelete} notify={notify} isEdit={isEdit} handleEdit={handleEdit} handleEditchange={handleEditchange}/>
       <ReactPaginate
         breakLabel="..."
-        nextLabel="next >"
+        nextLabel="next"
         onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
+        pageRangeDisplayed={4}
         pageCount={pageCount}
-        previousLabel="< previous"
+        previousLabel="back"
         renderOnZeroPageCount={null}
         containerClassName="pagination"
         pageLinkClassName='page-num'

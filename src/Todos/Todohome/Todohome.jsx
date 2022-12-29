@@ -5,8 +5,10 @@ import { db } from "../../firebase_configuration";
 import {
   collection,
   addDoc,
+  getDoc,
   getDocs,
   deleteDoc,
+  updateDoc,
   doc,
 } from "firebase/firestore";
 import Paginate from "../../Components/Paginate";
@@ -20,15 +22,17 @@ export default function Todohome() {
   const [itemsPerPage] = useState(4);
   const [notify, setNotify] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [currentItems, setCurrentItems] = useState(null);
+  const [realId, setRealId] = useState("");
 
   useEffect(() => {
     const getTodos = async () => {
       const todoDatas = await getDocs(todoCollectionRef);
       setTodos(todoDatas.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      setNotify(false)
+      setNotify(false);
     };
     getTodos();
-  }, [todos]);
+  }, [todos, text]);
 
   const date = new Date().toJSON().slice(0, 10);
 
@@ -36,26 +40,51 @@ export default function Todohome() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addDoc(todoCollectionRef, { Title: title, Text: text, Date: date });
-    setText("");
-    setTitle("");
+    if (text !== undefined && text !== "") {
+      addDoc(todoCollectionRef, { Title: title, Text: text, Date: date });
+      setText("");
+      setTitle("");
+    } else {
+      alert("add text");
+    }
+  };
+
+  const handleEditchange = (id) => {
+    try {
+      const itemsDoc = doc(db, "Todo", id);
+      if (id !== undefined && id !== "") {
+        updateDoc(itemsDoc, { Title: "", Text: text, Date: date });
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsEdit(false);
+      setText("");
+      console.log(id);
+    }
   };
 
   const handleDelete = async (id) => {
-    const userDoc = doc(db, "Todo", id);
+    const userDoc = doc(todoCollectionRef, id);
     await deleteDoc(userDoc);
     setNotify(true);
   };
 
-  const handleEdit =  (id) => {
-    setIsEdit(!isEdit);
-    setTodos(todos)
+  const handleEdit = async (id) => {
+    setIsEdit(true);
+    setRealId(id);
+    try {
+      const edititem = await getDoc(doc(db, "Todo", id));
+      console.log(edititem.data());
+      setText(edititem.data().Text);
+    } catch (error) {
+      console.log(error);
+    } 
   };
-   
 
-  const cancelButtonToggler = () =>{
-    setIsEdit(false)
-  }
+  const cancelButtonToggler = () => {
+    setIsEdit(false);
+  };
   return (
     <div className="container TodoHome_container col-lg-5 col-md-10 col-sm-12">
       <h2>Lazk Todo App</h2>
@@ -67,8 +96,9 @@ export default function Todohome() {
         setText={setText}
         toggler={cancelButtonToggler}
         isEdit={isEdit}
+        realId={realId}
+        handleEditchange={handleEditchange}
       />
-      <span className="todonumbers">{todos.length} items</span>
       <Paginate
         items={todos}
         itemsPerPage={itemsPerPage}
@@ -76,6 +106,9 @@ export default function Todohome() {
         notify={notify}
         isEdit={isEdit}
         handleEdit={handleEdit}
+        currentItems={currentItems}
+        setCurrentItems={setCurrentItems}
+        handleEditchange={handleEditchange}
       />
     </div>
   );
