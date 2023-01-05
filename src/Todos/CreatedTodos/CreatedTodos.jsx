@@ -5,7 +5,7 @@ import { CiEdit } from "react-icons/ci";
 import { useLayoutEffect } from "react";
 import Modal from "../../Components/Modal/Modal";
 import Notification from "../../Components/Notification/Notification";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 
 export default function CreatedTodos({
   currentItems,
@@ -29,7 +29,7 @@ export default function CreatedTodos({
               modalmessage={`Did you really want to delete?`}
               todos_id={todos.id}
             />
-            {notify && toast("you just deleted an item")}
+            {/* {notify && toast("you just deleted an item")} */}
             <div className="todos_box container" key={todos.id}>
               <h5>
                 {todos.Text.length > 40
@@ -37,7 +37,7 @@ export default function CreatedTodos({
                   : todos.Text}
               </h5>
               <pre className="text-muted">{todos.Date}</pre>
-              <ToastContainer />
+              {/* <ToastContainer /> */}
 
               <div className="operator_container">
                 <HiOutlineTrash

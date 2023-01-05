@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CreateTodos from "../CreateTodoes/CreateTodos";
 import "./Todohome.scss";
 import { db } from "../../firebase_configuration";
+import {ToastContainer, toast } from "react-toastify";
 import {
   collection,
   addDoc,
@@ -44,8 +45,6 @@ export default function Todohome() {
       addDoc(todoCollectionRef, { Title: title, Text: text, Date: date });
       setText("");
       setTitle("");
-    }else if(text == "" && text == undefined){
-      alert("text is empty")
     }
   };
 
@@ -54,6 +53,9 @@ export default function Todohome() {
       const itemsDoc = doc(db, "Todo", id);
       if (id !== undefined && id !== "") {
         updateDoc(itemsDoc, { Title: "", Text: text, Date: date });
+      }
+      else{
+        alert("confirm and confirmation")
       }
     } catch (err) {
       console.log(err);
@@ -67,8 +69,8 @@ export default function Todohome() {
   const handleDelete = async (id) => {
     const userDoc = doc(todoCollectionRef, id);
     await deleteDoc(userDoc);
-    setNotify(true);
-  };
+    toast(`you just deleted an item with ${id}`)
+    };
 
   const handleEdit = async (id) => {
     setIsEdit(true);
@@ -99,6 +101,7 @@ export default function Todohome() {
         realId={realId}
         handleEditchange={handleEditchange}
       />
+      <ToastContainer/>
       <Paginate
         items={todos}
         itemsPerPage={itemsPerPage}
