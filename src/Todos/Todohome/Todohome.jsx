@@ -69,7 +69,7 @@ export default function Todohome() {
   const handleDelete = async (id) => {
     const userDoc = doc(todoCollectionRef, id);
     await deleteDoc(userDoc);
-    toast(`you just deleted an item with ${id}`)
+    toast(`you just deleted an item with id ${id}`)
     };
 
   const handleEdit = async (id) => {
