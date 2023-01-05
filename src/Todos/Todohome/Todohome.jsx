@@ -44,8 +44,8 @@ export default function Todohome() {
       addDoc(todoCollectionRef, { Title: title, Text: text, Date: date });
       setText("");
       setTitle("");
-    } else {
-      alert("add text");
+    }else if(text == "" && text == undefined){
+      alert("text is empty")
     }
   };
 
